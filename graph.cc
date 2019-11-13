@@ -53,3 +53,34 @@ Graph::Graph(string filename) {
   }
 
 }
+
+void Graph::dfs() {
+
+  vector<bool> coloring;
+
+  for(int i = 0 ; i < adjacencyList.size(); i++) {
+    coloring.push_back(false);
+  }
+
+  coloring[0] = true;
+
+  stack<int> s;
+  s.push(0);
+
+
+
+  while(!s.empty()) {
+    int u;
+    u = s.pop();
+
+    for(int i = 0; i < adjacencyList[u].size(); i++) {
+
+      if(coloring[adjacencyList[u][i].second] == false) {
+        coloring[adjacencyList[u][i].second] = true;
+        s.push(adjacencyList[u][i].second);
+      }
+    }
+
+    cout << "Visited: " << u << endl;
+  }
+}

@@ -11,6 +11,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <stack>
 #include <string>
 #include <utility>
 
@@ -29,14 +30,8 @@ public:
 
 private:
 
-  enum color = { white, gray, black };
 
-  struct vertex {
-    int val;
-    color c;
-  }
-
-  map<vertex, vector< pair<int, int> > > adjacencyList;
+  map<int, vector< pair<int, int> > > adjacencyList;
   vector<vector<int>> adjacencyMatrix;
 };
 #endif
