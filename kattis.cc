@@ -70,7 +70,7 @@ Graph::Graph(string filename) {
       for(int i = 0; i < line.length(); i++) {
         int val = int(line[i]) - 48;
         //Making adjacency list
-        if(val > 0) {while(cin >> s) cout << s << endl;
+        if(val > 0) {
 
           adjacencyList[count].push_back(i);
         }
@@ -138,8 +138,30 @@ void Graph::dfsHelper(int node) {
 int main() {
 
   string s;
+  vector<vector<int>> vec;
+  int count = 0;
+  int graphSize = 0;
 
-  while(cin >> s) cout << s << endl;
+  while(cin >> s)
+  {
+    if(count > 1) {
+      vector<int> temp;
+      for(int i = 0; i < s.length(); i++) {
+        if(s[i] == '#') {
+          temp.push_back(0);
+        }
+        else {
+          temp.push_back(1);
+        }
+
+        graphSize++;
+      }
+      vec.push_back(temp);
+    }
+    count++;
+  }
+
+  cout << graphSize << endl;
 
 
   return 0;
