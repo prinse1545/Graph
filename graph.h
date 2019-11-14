@@ -22,6 +22,8 @@ public:
 
   Graph(string filename);
 
+  Graph(const Graph &g);
+
   void dfs();
 
   void bfs();

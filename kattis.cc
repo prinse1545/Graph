@@ -22,6 +22,8 @@ public:
 
   Graph(string filename);
 
+  Graph(const Graph &g);
+
   void dfs();
 
   void bfs();
@@ -68,7 +70,7 @@ Graph::Graph(string filename) {
       for(int i = 0; i < line.length(); i++) {
         int val = int(line[i]) - 48;
         //Making adjacency list
-        if(val > 0) {
+        if(val > 0) {while(cin >> s) cout << s << endl;
 
           adjacencyList[count].push_back(i);
         }
@@ -83,6 +85,11 @@ Graph::Graph(string filename) {
   }
 
 
+}
+
+Graph::Graph(const Graph &g) {
+  adjacencyList = g.adjacencyList;
+  adjacencyMatrix = g.adjacencyMatrix;
 }
 
 void Graph::dfs() {

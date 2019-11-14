@@ -52,6 +52,11 @@ Graph::Graph(string filename) {
 
 }
 
+Graph::Graph(const Graph &g) {
+  adjacencyList = g.adjacencyList;
+  adjacencyMatrix = g.adjacencyMatrix;
+}
+
 void Graph::dfs() {
 
   for(pair<int, vector<int>>p : adjacencyList) {

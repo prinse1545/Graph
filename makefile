@@ -9,5 +9,8 @@ test_graph.o: test_graph.cc graph.h
 graph.o: graph.cc graph.h
 	g++ -c graph.cc
 
+kattis: kattis.cc
+	g++ kattis.cc -o kattis
+
 clean:
 	rm *.o
