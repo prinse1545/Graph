@@ -26,8 +26,6 @@ public:
 
   void dfs();
 
-  void bfs();
-
   void topologicalsort();
 
 private:
