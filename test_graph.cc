@@ -5,7 +5,6 @@
 
 #include <iostream>
 #include "graph.h"
-#include "graph.cc"
 
 using namespace std;
 
