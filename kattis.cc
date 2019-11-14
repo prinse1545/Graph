@@ -1,9 +1,42 @@
 // Philipp & Austin
 // 13.11.2019
-// Filename: graph.cc
-// Description: This file implements a graph as described in graph.h
+// Filename: kattis.h
+// Description: This file implements a graph using an adjacency list
+// to store th graph and an adjacency matrix to store its weights
 
-#include "graph.h"
+#ifndef _Graph_h
+#define _Graph_h
+
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <vector>
+#include <stack>
+#include <string>
+#include <utility>
+
+using namespace std;
+
+class Graph {
+public:
+
+  Graph(string filename);
+
+  void dfs();
+
+  void bfs();
+
+  void topologicalsort();
+
+private:
+
+
+  map<int, vector<int> > adjacencyList;
+  vector<vector<int> > adjacencyMatrix;
+
+  void dfsHelper(int node);
+};
+
 
 Graph::Graph(string filename) {
 
@@ -90,4 +123,17 @@ void Graph::dfsHelper(int node) {
 
     cout << "Visited: " << u << endl;
   }
+}
+
+#endif
+
+
+int main() {
+
+  string s;
+
+  while(cin >> s) cout << s << endl;
+
+
+  return 0;
 }
