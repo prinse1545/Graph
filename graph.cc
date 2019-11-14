@@ -37,31 +37,50 @@ Graph::Graph(string filename) {
         //Making adjacency list
         if(val > 0) {
 
-          adjacencyList[count].push_back(count);
+          adjacencyList[count].push_back(i);
         }
         //Making matrix
         vec.push_back(val);
-        adjacencyMatrix.push_back(vec);
       }
+
+      adjacencyMatrix.push_back(vec);
 
       count ++;
     }
   }
 
+  for(int i = 0; i < adjacencyMatrix.size(); i++) {
+
+    for(int j = 0; j < adjacencyMatrix[i].size(); j++) {
+      cout << adjacencyMatrix[i][j];
+    }
+    cout << endl;
+  }
+
+
+
 }
 
 void Graph::dfs() {
 
+  for(pair<int, vector<int>>p : adjacencyList) {
+    cout << "Starting at: " << p.first << endl;
+    dfsHelper(p.first);
+  }
+
+}
+
+void Graph::dfsHelper(int node) {
   vector<bool> coloring;
 
   for(int i = 0 ; i < adjacencyList.size(); i++) {
     coloring.push_back(false);
   }
 
-  coloring[0] = true;
+  coloring[node] = true;
 
   stack<int> s;
-  s.push(0);
+  s.push(node);
 
 
 

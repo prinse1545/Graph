@@ -10,4 +10,4 @@ graph.o: graph.cc graph.h
 	g++ -c graph.cc
 
 clean:
-	rm * .o
+	rm *.o

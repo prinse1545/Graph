@@ -33,5 +33,7 @@ private:
 
   map<int, vector<int> > adjacencyList;
   vector<vector<int> > adjacencyMatrix;
+
+  void dfsHelper(int node);
 };
 #endif
