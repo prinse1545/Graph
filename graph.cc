@@ -19,9 +19,9 @@ Graph::Graph(string filename) {
 
     for(int i = 0; i < size; i++) {
 
-      vector<pair<int, int>> edges;
+      vector<int> edges;
 
-      adjacencyList.insert({ i, edges });
+      adjacencyList.insert(pair<int, vector<int> >(i, edges));
     }
 
     int count = 0;
@@ -36,12 +36,8 @@ Graph::Graph(string filename) {
         int val = int(line[i]) - 48;
         //Making adjacency list
         if(val > 0) {
-          pair<int, int> edge;
 
-          edge.first = i;
-          edge.second = count;
-
-          adjacencyList[count].push_back(edge);
+          adjacencyList[count].push_back(count);
         }
         //Making matrix
         vec.push_back(val);
@@ -70,14 +66,14 @@ void Graph::dfs() {
 
 
   while(!s.empty()) {
-    int u;
-    u = s.pop();
+    int u = s.top();
+    s.pop();
 
     for(int i = 0; i < adjacencyList[u].size(); i++) {
 
-      if(coloring[adjacencyList[u][i].second] == false) {
-        coloring[adjacencyList[u][i].second] = true;
-        s.push(adjacencyList[u][i].second);
+      if(coloring[adjacencyList[u][i]] == false) {
+        coloring[adjacencyList[u][i]] = true;
+        s.push(adjacencyList[u][i]);
       }
     }
 

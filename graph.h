@@ -31,7 +31,7 @@ public:
 private:
 
 
-  map<int, vector< pair<int, int> > > adjacencyList;
-  vector<vector<int>> adjacencyMatrix;
+  map<int, vector<int> > adjacencyList;
+  vector<vector<int> > adjacencyMatrix;
 };
 #endif
