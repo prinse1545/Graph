@@ -22,11 +22,13 @@ public:
 
   Graph(string filename);
 
+  Graph(const vector<vector<int>> graphMatrix);
+
   Graph(const Graph &g);
 
   void dfs();
 
-  void bfs();
+  int floodFill();
 
   void topologicalsort();
 
@@ -37,6 +39,7 @@ private:
   vector<vector<int> > adjacencyMatrix;
 
   void dfsHelper(int node);
+  void floodFillHelper(int node, vector<bool> &coloring, vector<int> &fullGraph);
 };
 
 
@@ -81,6 +84,28 @@ Graph::Graph(string filename) {
       adjacencyMatrix.push_back(vec);
 
       count ++;
+    }
+  }
+
+
+}
+
+Graph::Graph(const vector<vector<int>> graphMatrix) {
+
+  for(int i = 0; i < graphMatrix.size(); i++) {
+    adjacencyMatrix.push_back(graphMatrix[i]);
+
+    vector<int> edges;
+    adjacencyList.insert(pair<int,vector<int>>(i, edges));
+  }
+
+  for(int i = 0; i < graphMatrix.size(); i++) {
+
+    for(int j = 0; j < graphMatrix[i].size(); j++) {
+
+      if(graphMatrix[i][j] != 0) {
+        adjacencyList[i].push_back(j);
+      }
     }
   }
 
@@ -132,6 +157,58 @@ void Graph::dfsHelper(int node) {
   }
 }
 
+int Graph::floodFill() {
+
+  vector<bool> coloring;
+  int count = 0;
+
+  for(pair<int, vector<int>>p : adjacencyList) {
+    coloring[p.first] = false;
+  }
+
+  for(pair<int, vector<int>>p : adjacencyList) {
+    vector<int> fullGraph;
+    floodFillHelper(p.first, coloring, fullGraph);
+
+    if(fullGraph.size() > 0) {
+      count++;
+    }
+  }
+
+  return count;
+
+}
+
+void Graph::floodFillHelper(int node, vector<bool> &coloring, vector<int> &fullGraph) {
+
+
+  if(coloring[node] == true) {
+    return;
+  }
+
+  coloring[node] = true;
+
+  stack<int> s;
+  s.push(node);
+
+  while(!s.empty()) {
+
+    int u = s.top();
+    s.pop();
+
+    for(int i = 0; i < adjacencyList[u].size(); i++) {
+
+      if(coloring[adjacencyList[u][i]] == false) {
+        coloring[adjacencyList[u][i]] = true;
+        s.push(adjacencyList[u][i]);
+      }
+    }
+
+    fullGraph.push_back(u);
+  }
+}
+
+
 #endif
 
 
@@ -140,7 +217,7 @@ int main() {
   string s;
   vector<vector<int>> vec;
   int count = 0;
-  int graphSize = 0;
+  int matrixSize = 0;
 
   while(cin >> s)
   {
@@ -152,16 +229,77 @@ int main() {
         }
         else {
           temp.push_back(1);
+
         }
 
-        graphSize++;
+        matrixSize++;
       }
       vec.push_back(temp);
     }
     count++;
   }
 
-  cout << graphSize << endl;
+  vector<vector<int>> graphMatrix;
+
+  for(int i = 0; i < graphMatrix.size(); i++) {
+
+    for(int j = 0; j < graphMatrix[i].size(); j++) {
+      cout << graphMatrix[i][j];
+    }
+
+    cout << endl;
+  }
+  for(int i = 0; i < matrixSize; i++) {
+
+    vector<int> temp;
+
+    for(int j = 0; j < matrixSize; j++) {
+      temp.push_back(0);
+    }
+
+    graphMatrix.push_back(temp);
+  }
+
+  int order = 0;
+
+  for(int i = 0; i < vec.size(); i++) {
+
+    for(int j = 0; j < vec[i].size(); j++) {
+      //Checking if lights
+      if(vec[i][j] == 1) {
+        //Checking adjacency
+        if(i > 0 && vec[i - 1][j] == 1) {
+
+          graphMatrix[order][(i - 1) * vec[i].size() + j] = 1;
+
+        }
+
+        if(i != vec.size() - 1 && vec[i + 1][j] == 1) {
+
+          graphMatrix[order][(i + 1) * vec[i].size() + j] = 1;
+        }
+
+        if(j > 0 && vec[i][j - 1] == 1) {
+
+          graphMatrix[order][order - 1] = 1;
+        }
+
+        if(j != vec[i].size() - 1 && vec[i][j + 1] == 1) {
+
+          graphMatrix[order][order + 1] = 1;
+        }
+      }
+
+      order++;
+    }
+  }
+
+
+  Graph g(graphMatrix);
+
+  cout << g.floodFill() << endl;;
+
+
 
 
   return 0;
