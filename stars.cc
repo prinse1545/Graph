@@ -186,11 +186,9 @@ int main() {
   {
 
     int inputHeight;
-    if(s.length() == 2 && first) {
+    if((s.length() == 2 || s.length() == 1) && first) {
       stringstream num(s);
-
       num >> inputHeight;
-      count++;
       first = false;
     }
 
@@ -271,7 +269,7 @@ int main() {
     Graph g(graphMatrix);
 
     vector<vector<int>> visited = g.dfs();
-
+    count++;
     cout << "Case " << count << ": " << visited.size() - skyCount << endl;
 
     first = true;
