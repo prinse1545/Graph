@@ -59,20 +59,28 @@ Graph::Graph(const Graph &g) {
 
 void Graph::dfs() {
 
-  for(pair<int, vector<int>>p : adjacencyList) {
-    cout << "Starting at: " << p.first << endl;
-    dfsHelper(p.first);
-    cout << endl;
-  }
-
-}
-
-void Graph::dfsHelper(int node) {
   vector<bool> coloring;
 
   for(int i = 0 ; i < adjacencyList.size(); i++) {
     coloring.push_back(false);
   }
+
+  for(pair<int, vector<int>>p : adjacencyList) {
+
+    if(coloring[p.first] != true) {
+      cout << "Starting at: " << p.first << endl;
+      dfsHelper(p.first, coloring);
+    }
+
+    cout << endl;
+  }
+
+}
+
+void Graph::dfsHelper(int node, vector<bool> &coloring) {
+
+
+
 
   coloring[node] = true;
 

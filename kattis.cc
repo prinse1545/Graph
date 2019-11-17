@@ -26,9 +26,8 @@ public:
 
   Graph(const Graph &g);
 
-  void dfs();
+  vector<vector<int>> dfs();
 
-  int floodFill();
 
   void topologicalsort();
 
@@ -38,8 +37,8 @@ private:
   map<int, vector<int> > adjacencyList;
   vector<vector<int> > adjacencyMatrix;
 
-  void dfsHelper(int node);
-  void floodFillHelper(int node, vector<bool> &coloring, vector<int> &fullGraph);
+  vector<int> dfsHelper(int node, vector<bool> &coloring);
+
 };
 
 
@@ -117,31 +116,40 @@ Graph::Graph(const Graph &g) {
   adjacencyMatrix = g.adjacencyMatrix;
 }
 
-void Graph::dfs() {
+vector<vector<int>> Graph::dfs() {
 
   vector<bool> coloring;
+  vector<vector<int>> visited;
 
   for(int i = 0 ; i < adjacencyList.size(); i++) {
     coloring.push_back(false);
   }
 
   for(pair<int, vector<int>>p : adjacencyList) {
-    cout << "Starting at: " << p.first << endl;
-    dfsHelper(p.first, coloring);
+
+    if(coloring[p.first] != true) {
+      vector<int> temp;
+      temp = dfsHelper(p.first, coloring);
+      visited.push_back(temp);
+    }
+
+
+
     cout << endl;
   }
 
+  return visited;
+
 }
 
-void Graph::dfsHelper(int node, vector<bool> &coloring) {
+vector<int> Graph::dfsHelper(int node, vector<bool> &coloring) {
 
-  if(coloring[node] == true) {
-    return;
-  }
+
 
 
   coloring[node] = true;
 
+  vector<int> visitedNodes;
   stack<int> s;
   s.push(node);
 
@@ -159,60 +167,12 @@ void Graph::dfsHelper(int node, vector<bool> &coloring) {
       }
     }
 
-    cout << "Visited: " << u << endl;
+    visitedNodes.push_back(u);
   }
+
+  return visitedNodes;
 }
 
-int Graph::floodFill() {
-
-  vector<bool> coloring;
-  int count = 0;
-
-  for(pair<int, vector<int>>p : adjacencyList) {
-    coloring[p.first] = false;
-  }
-
-  for(pair<int, vector<int>>p : adjacencyList) {
-    vector<int> fullGraph;
-    floodFillHelper(p.first, coloring, fullGraph);
-
-    if(fullGraph.size() > 0) {
-      count++;
-    }
-  }
-
-  return count;
-
-}
-
-void Graph::floodFillHelper(int node, vector<bool> &coloring, vector<int> &fullGraph) {
-
-
-  if(coloring[node] == true) {
-    return;
-  }
-
-  coloring[node] = true;
-
-  stack<int> s;
-  s.push(node);
-
-  while(!s.empty()) {
-
-    int u = s.top();
-    s.pop();
-
-    for(int i = 0; i < adjacencyList[u].size(); i++) {
-
-      if(coloring[adjacencyList[u][i]] == false) {
-        coloring[adjacencyList[u][i]] = true;
-        s.push(adjacencyList[u][i]);
-      }
-    }
-
-    fullGraph.push_back(u);
-  }
-}
 
 
 #endif
@@ -224,6 +184,7 @@ int main() {
   vector<vector<int>> vec;
   int count = 0;
   int matrixSize = 0;
+  int skyCount = 0;
 
   while(cin >> s)
   {
@@ -232,6 +193,7 @@ int main() {
       for(int i = 0; i < s.length(); i++) {
         if(s[i] == '#') {
           temp.push_back(0);
+          skyCount++;
         }
         else {
           temp.push_back(1);
@@ -303,9 +265,9 @@ int main() {
 
   Graph g(graphMatrix);
 
-  cout << g.floodFill() << endl;;
+  vector<vector<int>> visited = g.dfs();
 
-
+  cout << visited.size() - skyCount << endl;
 
 
   return 0;
