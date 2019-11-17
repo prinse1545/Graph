@@ -180,101 +180,53 @@ int main() {
 
   string s;
 
-  int count = 0;
 
-  while(cin >> s)
-  {
-
-    int inputHeight;
-    stringstream num(s);
-    num >> inputHeight;
+  while(cin >> s) {
+    int height;
+    stringstream heightString(s);
+    heightString >> height;
 
     cin >> s;
 
-    vector<vector<int>> vec;
+    vector<vector<int>> numericalInput;
     int matrixSize = 0;
-    int skyCount = 0;
 
-    for(int i = 0; i < inputHeight; i++) {
-
+    for(int i = 0; i < height; i++) {
       cin >> s;
       vector<int> temp;
       for(int i = 0; i < s.length(); i++) {
-        if(s[i] == '#') {
+        if(s[i] == '0') {
           temp.push_back(0);
-          skyCount++;
         }
         else {
           temp.push_back(1);
-
         }
-
         matrixSize++;
       }
-      vec.push_back(temp);
+      numericalInput.push_back(temp);
     }
-
-    vector<vector<int>> graphMatrix;
+    //Initializing empty matrix
+    vector<vector<int>> constructorMatrix;
 
     for(int i = 0; i < matrixSize; i++) {
-
       vector<int> temp;
-
       for(int j = 0; j < matrixSize; j++) {
         temp.push_back(0);
-      }
 
-      graphMatrix.push_back(temp);
+      }
+      constructorMatrix.push_back(temp);
     }
 
+    for(int i = 0; i < numericalInput.size(); i++) {
 
-    int order = 0;
-
-    for(int i = 0; i < vec.size(); i++) {
-
-      for(int j = 0; j < vec[i].size(); j++) {
-        //Checking if lights
-        if(vec[i][j] == 1) {
-          //Checking adjacency
-          if(i > 0 && vec[i - 1][j] == 1) {
-
-            graphMatrix[order][(i - 1) * vec[i].size() + j] = 1;
-
-          }
-
-          if(i != vec.size() - 1 && vec[i + 1][j] == 1) {
-
-            graphMatrix[order][(i + 1) * vec[i].size() + j] = 1;
-          }
-
-          if(j > 0 && vec[i][j - 1] == 1) {
-
-            graphMatrix[order][order - 1] = 1;
-          }
-
-          if(j != vec[i].size() - 1 && vec[i][j + 1] == 1) {
-
-            graphMatrix[order][order + 1] = 1;
-          }
-        }
-
-        order++;
+      for(int j = 0; j < numericalInput[i].size(); j++) {
+        cout << numericalInput[i][j];
       }
+
+      cout << endl;
     }
-
-
-    Graph g(graphMatrix);
-
-    vector<vector<int>> visited = g.dfs();
-    count++;
-    cout << "Case " << count << ": " << visited.size() - skyCount << endl;
-
 
   }
-
-
-
-
 
 
 

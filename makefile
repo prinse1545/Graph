@@ -12,5 +12,8 @@ graph.o: graph.cc graph.h
 stars: stars.cc
 	g++ stars.cc -o stars
 
+coast: coast.cc
+	g++ coast.cc -o coast
+
 clean:
 	rm *.o
