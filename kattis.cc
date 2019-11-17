@@ -14,6 +14,7 @@
 #include <stack>
 #include <string>
 #include <utility>
+#include <sstream>
 
 using namespace std;
 
@@ -133,9 +134,6 @@ vector<vector<int>> Graph::dfs() {
       visited.push_back(temp);
     }
 
-
-
-    cout << endl;
   }
 
   return visited;
@@ -181,14 +179,30 @@ vector<int> Graph::dfsHelper(int node, vector<bool> &coloring) {
 int main() {
 
   string s;
-  vector<vector<int>> vec;
+  bool first = true;
   int count = 0;
-  int matrixSize = 0;
-  int skyCount = 0;
 
   while(cin >> s)
   {
-    if(count > 1) {
+
+    int inputHeight;
+    if(s.length() == 2 && first) {
+      stringstream num(s);
+
+      num >> inputHeight;
+      count++;
+      first = false;
+    }
+
+    cin >> s;
+
+    vector<vector<int>> vec;
+    int matrixSize = 0;
+    int skyCount = 0;
+
+    for(int i = 0; i < inputHeight; i++) {
+
+      cin >> s;
       vector<int> temp;
       for(int i = 0; i < s.length(); i++) {
         if(s[i] == '#') {
@@ -204,70 +218,70 @@ int main() {
       }
       vec.push_back(temp);
     }
-    count++;
-  }
 
-  vector<vector<int>> graphMatrix;
+    vector<vector<int>> graphMatrix;
 
-  for(int i = 0; i < graphMatrix.size(); i++) {
+    for(int i = 0; i < matrixSize; i++) {
 
-    for(int j = 0; j < graphMatrix[i].size(); j++) {
-      cout << graphMatrix[i][j];
-    }
+      vector<int> temp;
 
-    cout << endl;
-  }
-  for(int i = 0; i < matrixSize; i++) {
-
-    vector<int> temp;
-
-    for(int j = 0; j < matrixSize; j++) {
-      temp.push_back(0);
-    }
-
-    graphMatrix.push_back(temp);
-  }
-
-  int order = 0;
-
-  for(int i = 0; i < vec.size(); i++) {
-
-    for(int j = 0; j < vec[i].size(); j++) {
-      //Checking if lights
-      if(vec[i][j] == 1) {
-        //Checking adjacency
-        if(i > 0 && vec[i - 1][j] == 1) {
-
-          graphMatrix[order][(i - 1) * vec[i].size() + j] = 1;
-
-        }
-
-        if(i != vec.size() - 1 && vec[i + 1][j] == 1) {
-
-          graphMatrix[order][(i + 1) * vec[i].size() + j] = 1;
-        }
-
-        if(j > 0 && vec[i][j - 1] == 1) {
-
-          graphMatrix[order][order - 1] = 1;
-        }
-
-        if(j != vec[i].size() - 1 && vec[i][j + 1] == 1) {
-
-          graphMatrix[order][order + 1] = 1;
-        }
+      for(int j = 0; j < matrixSize; j++) {
+        temp.push_back(0);
       }
 
-      order++;
+      graphMatrix.push_back(temp);
     }
+
+
+    int order = 0;
+
+    for(int i = 0; i < vec.size(); i++) {
+
+      for(int j = 0; j < vec[i].size(); j++) {
+        //Checking if lights
+        if(vec[i][j] == 1) {
+          //Checking adjacency
+          if(i > 0 && vec[i - 1][j] == 1) {
+
+            graphMatrix[order][(i - 1) * vec[i].size() + j] = 1;
+
+          }
+
+          if(i != vec.size() - 1 && vec[i + 1][j] == 1) {
+
+            graphMatrix[order][(i + 1) * vec[i].size() + j] = 1;
+          }
+
+          if(j > 0 && vec[i][j - 1] == 1) {
+
+            graphMatrix[order][order - 1] = 1;
+          }
+
+          if(j != vec[i].size() - 1 && vec[i][j + 1] == 1) {
+
+            graphMatrix[order][order + 1] = 1;
+          }
+        }
+
+        order++;
+      }
+    }
+
+
+    Graph g(graphMatrix);
+
+    vector<vector<int>> visited = g.dfs();
+
+    cout << "Case " << count << ": " << visited.size() - skyCount << endl;
+
+    first = true;
+
   }
 
 
-  Graph g(graphMatrix);
 
-  vector<vector<int>> visited = g.dfs();
 
-  cout << visited.size() - skyCount << endl;
+
 
 
   return 0;
