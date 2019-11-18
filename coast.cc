@@ -217,13 +217,47 @@ int main() {
       constructorMatrix.push_back(temp);
     }
 
+    int order = 0;
+
     for(int i = 0; i < numericalInput.size(); i++) {
 
       for(int j = 0; j < numericalInput[i].size(); j++) {
-        cout << numericalInput[i][j];
-      }
+       if(numericalInput[i][j] == 1) {
+         //Checking adjacency
+         if(i > 0 && numericalInput[i - 1][j] == 0) {
 
-      cout << endl;
+           constructorMatrix[order][(i - 1) * numericalInput[i].size() + j] = 1;
+
+         }
+
+         if(i != numericalInput.size() - 1 && numericalInput[i + 1][j] == 0) {
+
+           constructorMatrix[order][(i + 1) * numericalInput[i].size() + j] = 1;
+         }
+
+         if(j > 0 && numericalInput[i][j - 1] == 0) {
+
+           constructorMatrix[order][order - 1] = 1;
+         }
+
+         if(j != numericalInput[i].size() - 1 && numericalInput[i][j + 1] == 0) {
+
+           constructorMatrix[order][order + 1] = 1;
+         }
+       }
+       order++;
+      }
+    }
+
+    Graph g(constructorMatrix);
+
+    vector<vector<int>> graphs = g.dfs();
+
+    for(int i = 0; i < graphs.size(); i++) {
+      cout << "graph" << i << endl;
+      for(int j = 0; j < graphs[i].size(); j++) {
+        cout << graphs[i][j] << endl;
+      }
     }
 
   }
