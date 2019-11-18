@@ -15,6 +15,7 @@
 #include <string>
 #include <utility>
 #include <sstream>
+#include <queue>
 
 using namespace std;
 
@@ -40,6 +41,12 @@ private:
 
   vector<int> dfsHelper(int node, vector<bool> &coloring);
 
+};
+
+class CycleError
+{
+	public:
+		std::string message = "CYCLE DETECTED";
 };
 
 
@@ -169,6 +176,59 @@ vector<int> Graph::dfsHelper(int node, vector<bool> &coloring) {
   }
 
   return visitedNodes;
+}
+
+void Graph::topologicalsort()
+{
+  stringstream ss;
+  queue<int> Q;
+
+  map<int, int> inDegrees;
+
+  for (auto const& x : adjacencyList)
+  {
+    int inDegree = 0;
+    for (auto const& y : adjacencyList)
+    {
+      for (int i = 0; i < y.second.size(); i++)
+      {
+        if (y.second[i] == x.first)
+        {
+          inDegree++;
+        }
+      }
+    }
+
+    inDegrees[x.first] = inDegree;
+
+    if (inDegree == 0)
+    {
+      Q.push(x.first);
+    }
+  }
+
+  if (Q.size() == 0) throw CycleError();
+
+  while (Q.size() != 0)
+  {
+    bool outputHappened = false;
+    int u = Q.front();
+    Q.pop();
+    ss << u << " ";
+    outputHappened = true;
+
+    for (int i = 0; i < adjacencyList[u].size(); i++)
+    {
+      inDegrees[adjacencyList[u][i]] = inDegrees[adjacencyList[u][i]] - 1;
+
+      if (inDegrees[adjacencyList[u][i]] == 0)
+      {
+        Q.push(adjacencyList[u][i]);
+      }
+    }
+  }
+
+  cout << ss.str() << endl;
 }
 
 

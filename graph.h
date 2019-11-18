@@ -14,6 +14,7 @@
 #include <stack>
 #include <string>
 #include <utility>
+#include <queue>
 
 using namespace std;
 
@@ -36,4 +37,11 @@ private:
 
   void dfsHelper(int node, vector<bool> &coloring);
 };
+
+class CycleError
+{
+	public:
+		std::string message = "CYCLE DETECTED";
+};
+
 #endif
