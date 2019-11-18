@@ -254,7 +254,7 @@ int main() {
     vector<vector<int>> vec;
     int matrixSize = 0;
     int skyCount = 0;
-
+    int starCount = 0;
     for(int i = 0; i < inputHeight; i++) {
 
       cin >> s;
@@ -265,11 +265,11 @@ int main() {
           skyCount++;
         }
         else {
-          temp.push_back(1);
-
+          temp.push_back(++starCount);
+          matrixSize++;
         }
 
-        matrixSize++;
+
       }
       vec.push_back(temp);
     }
@@ -288,37 +288,35 @@ int main() {
     }
 
 
-    int order = 0;
 
     for(int i = 0; i < vec.size(); i++) {
 
       for(int j = 0; j < vec[i].size(); j++) {
         //Checking if lights
-        if(vec[i][j] == 1) {
+        if(vec[i][j] > 0) {
           //Checking adjacency
-          if(i > 0 && vec[i - 1][j] == 1) {
+          if(i > 0 && vec[i - 1][j] > 0) {
 
-            graphMatrix[order][(i - 1) * vec[i].size() + j] = 1;
+            graphMatrix[vec[i][j] - 1][vec[i - 1][j] - 1] = 1;
 
           }
 
-          if(i != vec.size() - 1 && vec[i + 1][j] == 1) {
+          if(i != vec.size() - 1 && vec[i + 1][j] > 0) {
 
-            graphMatrix[order][(i + 1) * vec[i].size() + j] = 1;
+            graphMatrix[vec[i][j] - 1][vec[i + 1][j] - 1] = 1;
           }
 
-          if(j > 0 && vec[i][j - 1] == 1) {
+          if(j > 0 && vec[i][j - 1] > 0) {
 
-            graphMatrix[order][order - 1] = 1;
+            graphMatrix[vec[i][j] - 1][vec[i][j - 1] - 1] = 1;
           }
 
-          if(j != vec[i].size() - 1 && vec[i][j + 1] == 1) {
+          if(j != vec[i].size() - 1 && vec[i][j + 1] > 0) {
 
-            graphMatrix[order][order + 1] = 1;
+            graphMatrix[vec[i][j] - 1][vec[i][j + 1] - 1] = 1;
           }
         }
 
-        order++;
       }
     }
 
@@ -327,7 +325,7 @@ int main() {
 
     vector<vector<int>> visited = g.dfs();
     count++;
-    cout << "Case " << count << ": " << visited.size() - skyCount << endl;
+    cout << "Case " << count << ": " << visited.size()<< endl;
 
 
   }
