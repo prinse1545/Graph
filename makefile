@@ -1,4 +1,11 @@
+test_disjoint: test_disjoint.o disjoint.o
+	g++ test_disjoint disjoint.o -o test_disjoint
 
+test_disjoint.o: test_disjoint.cc disjoint.h disjoint.cc
+	g++ -c test_disjoint.cc
+
+disjoint.o: disjoint.cc disjoint.h
+	g++ -c disjoint.h	
 
 test_graph: graph.o test_graph.o
 	g++ graph.o test_graph.o -o test_graph
