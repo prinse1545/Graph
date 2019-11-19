@@ -28,7 +28,7 @@ void Disjoint<T>::makeSet(T item) {
 
 template <class T>
 
-T findSet(T item) {
+T Disjoint<T>::findSet(T item) {
   Node* ret = findSetHelper(item);
 
   return ret->item;
@@ -36,7 +36,7 @@ T findSet(T item) {
 
 template <class T>
 
-void union(T x, T y) {
+void Disjoint<T>::union(T x, T y) {
 
   x = findSet(x);
   y = findSet(y);
@@ -56,7 +56,7 @@ void union(T x, T y) {
 
 template <class T>
 
-Node* findSetHelper(T item) {
+Node* Disjoint<T>::findSetHelper(T item) {
 
   Node* curr = container[item];
 

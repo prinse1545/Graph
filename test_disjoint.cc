@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "disjoint.h"
+#include "disjoint.cc"
 
 using namespace std;
 
@@ -12,7 +13,7 @@ int main() {
 
   Disjoint<int> testOne(56);
 
-  
+
 
   return 0;
 }
