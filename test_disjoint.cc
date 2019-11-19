@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include "disjoint.h"
-#include "disjoint.cc"
+
 
 using namespace std;
 

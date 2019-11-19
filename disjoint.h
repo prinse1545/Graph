@@ -37,6 +37,6 @@ private:
   Node* findSetHelper(T item);
 };
 
-
+#include "disjoint.cc"
 
 #endif
